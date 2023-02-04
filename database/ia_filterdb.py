@@ -61,6 +61,7 @@ async def save_file(media):
             return True, 1
 
 
+
 async def get_search_results(query, file_type=None, max_results=(MAX_RIST_BTNS), offset=0, filter=False):
     """For given query return (results, next_offset)"""
 
@@ -97,7 +98,11 @@ async def get_search_results(query, file_type=None, max_results=(MAX_RIST_BTNS),
 
     cursor = Media.find(filter)
     # Sort by recent
-    cursor.sort('$natural', -1)
+    print(cursor)
+    if not query:
+        cursor.sort('$natural', -1)
+    else:
+        cursor.sort('file_name')
     # Slice files according to offset and max results
     cursor.skip(offset).limit(max_results)
     # Get list of files
